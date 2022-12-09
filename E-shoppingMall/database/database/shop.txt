@@ -1,0 +1,155 @@
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `id` int(11)  NOT NULL auto_increment,
+  `pid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `pname` varchar(50) NOT NULL,
+  `price` varchar(30) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `total` varchar(30) NOT NULL,
+  KEY `id` (`id`,`pid`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cart`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `categories`
+--
+
+CREATE TABLE `categories` (
+  `cid` int(11) NOT NULL auto_increment,
+  `cname` varchar(20) NOT NULL,
+  PRIMARY KEY  (`cid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `categories`
+--
+
+INSERT INTO `categories` (`cid`, `cname`) VALUES
+(1, 'Automobiles'),
+(2, 'Electronis & Compute'),
+(3, 'Home Appliances'),
+(4, 'Jewellery'),
+(5, 'Mobiles & Cameras'),
+(6, 'Toys & Gifts');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `pid` int(11) NOT NULL auto_increment,
+  `cid` int(11) NOT NULL,
+  `pname` varchar(30) NOT NULL,
+  `mrp` varchar(10) default NULL,
+  `discount` varchar(3) default NULL,
+  `imagename` varchar(300) default NULL,
+  `brand` varchar(20) default NULL,
+  `mfd` date default NULL,
+  PRIMARY KEY  (`pid`),
+  KEY `cid` (`cid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`pid`, `cid`, `pname`, `mrp`, `discount`, `imagename`, `brand`, `mfd`) VALUES
+(1, 5, 'Nokia 6600', '6000', '5%', 'nokia6600_1.jpeg', 'Nokia', '2009-03-25'),
+(2, 1, 'Nano Car', '100000', '', 'nano1.jpeg', 'TATA', '2009-04-01'),
+(3, 2, 'HCL Laptop', '45000', '4%', 'laptop1.jpeg', 'HCL', '2009-02-25'),
+(4, 3, 'Microwave Oven', '100000', '4%', 'mwave1.jpeg', 'Panasonic', '2009-05-01'),
+(5, 3, 'LG Television', '18000', '5%', 'lgtv1.jpeg', 'LG', '2009-04-01');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `salesreport`
+--
+
+CREATE TABLE `salesreport` (
+  `pid` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `pname` varchar(50) NOT NULL,
+  `price` varchar(20) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `total` varchar(30) NOT NULL,
+  KEY `pid` (`pid`,`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `salesreport`
+--
+
+INSERT INTO `salesreport` (`pid`, `uid`, `pname`, `price`, `qty`, `total`) VALUES
+(4, 2, 'Microwave Oven', '100000', 1, '96000.0'),
+(2, 1, 'Nano Car', '100000', 1, '100000.0'),
+(5, 1, 'LG Television', '18000', 2, '34200.0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `uid` int(11) NOT NULL auto_increment,
+  `fname` varchar(30) NOT NULL,
+  `lname` varchar(20) default NULL,
+  `uname` varchar(30) NOT NULL,
+  `password` varchar(30) NOT NULL,
+  `contact` varchar(20) NOT NULL,
+  `address` varchar(500) NOT NULL,
+  `email` varchar(100) default NULL,
+  `payment_option` varchar(200) NOT NULL,
+  `dob` date default NULL,
+  `type` varchar(1) NOT NULL,
+  `gender` varchar(1) default NULL,
+  `phno` varchar(20) default NULL,
+   `accno` varchar(50),
+   `bal` int(50),
+  PRIMARY KEY  (`uid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`uid`, `fname`, `lname`, `uname`, `password`, `contact`, `address`, `email`, `payment_option`, `dob`, `type`, `gender`, `phno`) VALUES
+(1, 'Naveen', 'Reddy', 'naveen', 'naveenreddy', '9834342323', 'Tarnaka,Hyderabad-500060', 'naveen4u@gmail.com', 'ICICI Bank Online Credit Card', '2009-04-24', 'u', 'M', '040-2302323232'),
+(2, 'Rahul', 'Poodari', 'rahulpoodari', 'rahulpoodari', '90043434343', 'Ram Nagar,\r\nHyderabad', 'rahul@gmail.com', 'SBI Credit Card', '1983-04-24', 'u', 'M', '040-233434343'),
+(3, 'admin', 'admin', 'admin', 'admin123', '32323233', 'Online Shopping', 'admin@os.com', '1433', '1984-04-10', 'a', 'M', NULL);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `cart`
+--
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `products`
+--
+ALTER TABLE `products`
+  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `categories` (`cid`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `salesreport`
+--
+ALTER TABLE `salesreport`
+  ADD CONSTRAINT `salesreport_ibfk_1` FOREIGN KEY (`pid`) REFERENCES `products` (`pid`);

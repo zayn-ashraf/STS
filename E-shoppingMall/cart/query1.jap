@@ -1,0 +1,4 @@
+<%@page import="java.sql.*"%>
+<%
+String uname=requeat.getParameter("uname");
+String query=request.getParsmetet("query");
